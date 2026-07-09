@@ -261,7 +261,7 @@ function updateChrome() {
   $("yearA").value = yearA;
   $("yearB").value = yearB;
   const src = SOURCE_URLS[yearA];
-  $("source-link").style.display = src ? "" : "none";
+  $("source-sep").style.display = src ? "" : "none";
   if (src) $("source-link").href = src;
   renderLegend();
   writeHash();

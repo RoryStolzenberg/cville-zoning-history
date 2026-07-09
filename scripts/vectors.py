@@ -67,7 +67,8 @@ def dissolve(src, zone_field, layer):
     tmp.unlink(missing_ok=True)
     subprocess.run([
         "ogr2ogr", "-f", "GeoJSON", "-t_srs", "EPSG:4326",
-        "-simplify", "3", "-lco", "COORDINATE_PRECISION=5",
+        # -simplify applies in TARGET units — degrees here (1e-5 deg ~ 3.6 ft)
+        "-simplify", "0.00001", "-lco", "COORDINATE_PRECISION=5",
         "-dialect", "sqlite",
         "-sql", f'SELECT "{zone_field}" AS zone, ST_Union(geometry) AS '
                 f'geometry FROM "{layer}" GROUP BY "{zone_field}"',
