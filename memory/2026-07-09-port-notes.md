@@ -1,8 +1,18 @@
 # Cville zoning viewer — port notes (2026-07-09)
 
 Porting the 2022 Observable/Mapbox viewer to the Arlington GLUP viewer
-stack (static MapLibre + pmtiles, GitHub Pages). Repo target:
-github.com/RoryStolzenberg/cville-zoning-history (Pages from /docs).
+stack (static MapLibre + pmtiles, GitHub Pages).
+
+PUBLISHED (2026-07-09):
+- Live: https://rorystolzenberg.github.io/cville-zoning-history/
+- Repo: github.com/RoryStolzenberg/cville-zoning-history (Pages from
+  /docs on main; gh account RoryStolzenberg — `gh auth switch`).
+- pmtiles 117 MB total (pngquant 414→181 MB XYZ before packing).
+- Gotcha: repo path contains a space → pip script shebangs break;
+  invoke .venv scripts via `.venv/bin/python <script>` (see
+  pmtiles_build.py mb-util call).
+- gdal2tiles: system GDAL 3.4 + venv numpy 2 print a scary osgeo
+  _ARRAY_API traceback that is NON-FATAL (tiles verified complete).
 
 ## Source inventory (../ = Documents/Planning/Historical Zoning)
 All hand-georeferenced in QGIS (2022), EPSG:2284 (VA South ftUS),
