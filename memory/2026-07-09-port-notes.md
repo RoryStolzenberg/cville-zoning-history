@@ -35,6 +35,20 @@ resized to ≤900 px wide into docs/legends/).
   Portal (like the notebook did for parcels). Palette = notebook's
   zoningLegendColors (R-A…DX/IX/CV/CM).
 
+## 1963 georeferencing (2026-07-09) — what failed and what worked
+- FAILED: SIFT (hatch texture → degenerate homography with repeated dst
+  points — check pairwise dst distances, not inlier count/rms!);
+  gradient/street/blob phase-corr sweeps; bbox-template coarse. Global
+  phase-corr offsets on hatched lithos are HATCH-PERIOD ALIASES —
+  inconsistent across reference years is the tell.
+- WORKED: 2-point manual seed (Meadow Ck/Rivanna confluence + US-250
+  crossing, gridded-crop workflow) → 2x tight-search grid template
+  matching, SIMILARITY fit only → TPS. Verify = median LOCAL patch
+  displacement vs 3 trusted editions (trusted-pair noise floor: median
+  ±30 ft, MAD 150-270 ft). Accepted at median 80-210 ft — the litho's
+  own drafting distortion; flag to user, redo by hand in QGIS if it
+  bugs anyone.
+
 ## Old notebook facts
 - 8 editions as Mapbox-hosted tilesets under rorystolzenberg.*;
   legends hotlinked from cvillepedia.org (now committed locally).

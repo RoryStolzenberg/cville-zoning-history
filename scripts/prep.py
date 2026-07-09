@@ -52,9 +52,6 @@ def prep_raster(year, src):
             (["-b", "2"] if "Alpha" in interp else [])
         subprocess.run(["gdal_translate", "-q", "-of", "VRT", *b,
                         str(src), str(tmp)], check=True)
-        ci = ["-colorinterp", "red,green,blue" +
-              (",alpha" if "Alpha" in interp else "")]
-        subprocess.run(["gdal_edit.py", *ci, str(tmp)], check=False)
         src = tmp
     if "Alpha" not in interp:
         args.append("-dstalpha")
