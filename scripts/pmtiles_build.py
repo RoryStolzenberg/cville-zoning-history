@@ -47,7 +47,10 @@ def main():
         }))
         with tempfile.TemporaryDirectory() as td:
             mb = Path(td) / f"{year}.mbtiles"
-            subprocess.run([str(MBUTIL), "--silent", "--image_format=png",
+            # run via python: the repo path contains a space, which breaks
+            # the mb-util script's shebang
+            subprocess.run([str(ROOT / ".venv" / "bin" / "python"),
+                            str(MBUTIL), "--silent", "--image_format=png",
                             "--scheme=xyz", str(src), str(mb)], check=True)
             subprocess.run([PMTILES, "convert", str(mb), str(out)],
                            check=True)
