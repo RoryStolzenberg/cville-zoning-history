@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Historical Zoning Maps — Charlottesville, VA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
+</head>
+<body>
+<div id="maps">
+  <div id="wrapA" class="map-wrap"><div id="mapA" class="map"></div></div>
+  <div id="wrapB" class="map-wrap hidden"><div id="mapB" class="map"></div></div>
+  <div id="divider" class="hidden"><div id="divider-handle">⇔</div></div>
+</div>
+
+<header id="titlebar">
+  <h1>Charlottesville Zoning <span id="title-year"></span></h1>
+  <p>Zoning maps, 1929–2024 ·
+    <a id="source-link" href="#" target="_blank" rel="noopener">source sheet</a> ·
+    <a href="https://www.cvillepedia.org/Zoning" target="_blank" rel="noopener">cvillepedia</a></p>
+</header>
+
+<div id="controls">
+  <label>overlay
+    <input id="opacity" type="range" min="0" max="100" value="100">
+  </label>
+  <button id="vec2003-btn" title="2003 zoning districts (vector, in force through 2023)">2003 districts</button>
+  <button id="vec2024-btn" title="Current zoning districts (2024 Development Code, vector)">2024 districts</button>
+  <button id="compare-btn" title="Compare two years side by side">compare</button>
+</div>
+
+<div id="compare-years" class="hidden">
+  <select id="yearA"></select>
+  <span>vs</span>
+  <select id="yearB"></select>
+</div>
+
+<nav id="timeline"></nav>
+
+<div id="legend">
+  <button id="legend-head">Legend <span id="legend-arrow">▾</span></button>
+  <div id="legend-body"></div>
+</div>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/pmtiles@3.2.1/dist/pmtiles.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

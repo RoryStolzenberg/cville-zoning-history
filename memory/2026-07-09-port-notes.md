@@ -1,0 +1,49 @@
+# Cville zoning viewer — port notes (2026-07-09)
+
+Porting the 2022 Observable/Mapbox viewer to the Arlington GLUP viewer
+stack (static MapLibre + pmtiles, GitHub Pages). Repo target:
+github.com/RoryStolzenberg/cville-zoning-history (Pages from /docs).
+
+## Source inventory (../ = Documents/Planning/Historical Zoning)
+All hand-georeferenced in QGIS (2022), EPSG:2284 (VA South ftUS),
+north-up geotransforms — no warping work needed, just normalization.
+Chosen per year (see sources/manifest.tsv):
+- 1929: RGB 11.3 ft/px (small scan — best available)
+- 1939: gray 3.1 ft/px ("superseded 1949" print)
+- 1949: gray 3.1 ft/px
+- 1958: gray+alpha 11.2 ft/px (full-res 63 MB PNG exists but was never
+  georeferenced; the "smallerer" one was)
+- 1963: NOT georeferenced in 2022 — we do it now ("pg 2 - cleaned.png").
+  Never appeared in the Observable notebook.
+- 1976: RGB 4.1 ft/px
+- 1991: RGB 4.7 ft/px — the georeferenced file is "1991 Zoning
+  Map_modified.tif" (no _georeferenced suffix; don't be fooled)
+- 2003: use "_georeferenced_deflate.tif" (lossless full-res 2.5 ft/px;
+  the _smallerer/_smallererer JPEG variants are degraded, _smallererer
+  even lost its CRS)
+- 2020: RGB 4.7 ft/px
+
+Legend crops exist for every year incl. 1963 (PNG, some 1–3 MB —
+resized to ≤900 px wide into docs/legends/).
+
+## Vector overlays (user-directed, replaces notebook's stale "Current")
+- 2003 code (in force through 2023):
+  ../../dump/Shapefiles/Zoning_2003 shapefile. Color palette =
+  notebook's zoningColors2013 + zone_strip_historic_map (historic/
+  corridor suffixes H/C stripped to base zone).
+- Current (Feb 2024 Development Code): pull from Cville Open Data
+  Portal (like the notebook did for parcels). Palette = notebook's
+  zoningLegendColors (R-A…DX/IX/CV/CM).
+
+## Old notebook facts
+- 8 editions as Mapbox-hosted tilesets under rorystolzenberg.*;
+  legends hotlinked from cvillepedia.org (now committed locally).
+- Mapbox token + tilesets stay live but nothing here depends on them.
+
+## Decisions
+- Viewer chrome forked from GLUP: timeline, opacity, swipe compare,
+  hash state. Parcel click-history DROPPED (no per-parcel
+  classification here — 1929–58 are B&W hatched prints).
+- Legend panel shows the per-year legend IMAGE (not generated chips).
+- go-pmtiles binary was lost with the old session scratchpad —
+  re-download from github.com/protomaps/go-pmtiles releases.
