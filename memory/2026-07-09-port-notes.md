@@ -115,6 +115,36 @@ resized to ≤900 px wide into docs/legends/).
   curve includes non-river boundary stretches; restrict to the hook
   neighborhood AND init from a point feature (the V-tip) first.
 
+## Round 4 (2026-07-10): "scaling seems off" -> text-anchor method
+- After the hook-lock translation the user still saw scale error at
+  the river. The instrument that finally worked: NAMED-INTERSECTION
+  anchors — spatialite ST_Intersection gives TIGER geo for two named
+  streets; render the warp there with a crosshair + TIGER roads; READ
+  THE SHEET'S PRINTED STREET NAMES to find the drawn intersection.
+  Street names cannot alias. Everything else on this sheet can.
+- Result: core/N/W/S were fine; two real pockets — Locust Grove (NE)
+  ~650 ft north, Belmont (SE) ~380 ft south (trapezoidal east-side
+  stretch = his "scaling"). Fixed with TPS through measured knots + a
+  ZERO RING of knots around the unmeasured margins so the correction
+  stays local. Order-2 on the same knots extrapolates to -12,000 ft at
+  sheet corners — never fit an unconstrained polynomial to local
+  corrections.
+- gradient-NCC displacement fields vs 1958 are only usable as
+  MUTUALLY-CONSISTENT CLUSTERS; isolated matches (even ncc 0.5) can be
+  false locks, neighbors 1,000 ft apart "measuring" 2,000 ft apart is
+  the tell. Also: 1959-63 annexation areas were redrafted between the
+  1958/1963 editions — no valid correspondence there at all.
+- The wide-capture street verify in georef_1963.py was demoted to
+  REPORT ONLY: it certified the 2,200-ft-off warp and then flagged the
+  text-verified warp at (+352,+144). gdaltransform -tps probing showed
+  the actual TPS deformation downtown was <50 ft — the metric, not the
+  warp, was wrong. Acceptance is now the _c*.png crosshair renders +
+  _corr_hook.png water fill.
+- Known residuals shipped: W Main x 7th SW and Avon x Levy read
+  ~200-330 ft off (pre-existing engraving distortion, present before
+  and after the correction; same class as the 1958 hand-warp's local
+  wobble). More hand knots would stack cleanly if it ever matters.
+
 ## 1963 georeferencing v1 (2026-07-09) — what failed (kept for lessons)
 - FAILED: SIFT (hatch texture → degenerate homography with repeated dst
   points — check pairwise dst distances, not inlier count/rms!);
