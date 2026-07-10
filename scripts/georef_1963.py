@@ -70,6 +70,28 @@ def streets(img, sigma=3.0):
     return soft / (soft.max() + 1e-6)
 
 
+def sheet_mask(gray, sigma=3.0):
+    """Dual-polarity street mask for the 1963 sheet.
+
+    Inside the hatched city, streets are BRIGHT lines on dark fill
+    (top-hat). Outside the boundary, county roads are thin DARK lines
+    on white paper (black-hat) — without them the fit has zero control
+    east of the city and the polynomial extrapolates freely at the
+    Rivanna (the second user-caught misplacement, ~1500 ft at the
+    hook). Black-hat responses count only where local ink density is
+    low, so city hatching can't flood the mask."""
+    k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (13, 13))
+    bright = streets(gray, sigma)
+    bh = cv2.morphologyEx(gray, cv2.MORPH_BLACKHAT, k)
+    _, bw = cv2.threshold(bh, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    ink = cv2.GaussianBlur((255 - gray).astype(np.float32), (0, 0), 25)
+    outside = (ink < 40).astype(np.float32)
+    dark = cv2.GaussianBlur(bw.astype(np.float32) / 255 * outside,
+                            (0, 0), sigma)
+    dark /= dark.max() + 1e-6
+    return np.maximum(bright, dark)
+
+
 def raster_bbox(path):
     info = json.loads(subprocess.run(
         ["gdalinfo", "-json", str(path)], capture_output=True, text=True,

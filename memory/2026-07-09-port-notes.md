@@ -74,6 +74,15 @@ resized to ≤900 px wide into docs/legends/).
 - Legend panel embiggened (1400px assets, wider panel, click ->
   lightbox). 2024 legend crop must come from the WARPED tif frame,
   not the raw PDF page (coords differ).
+- CACHE TRAP: after redeploying changed pmtiles, the user's browser
+  keeps serving cached range requests — a "still broken" report right
+  after a fix may be stale tiles. Check md5(live) == md5(local) and a
+  fresh headless browser BEFORE re-diagnosing; ask for hard refresh.
+- work/ref/ref_water.tif (make_ref.sh): Rivanna water polygons as a
+  second reference — the 1963+ city boundary follows the river, so it
+  verifies sheet east edges where 1963-era roads are too sparse.
+  Ink-vs-water overlay at the hook shows the accepted 1963 warp within
+  ~150-250 ft there (sheet's own county-area drafting is the limit).
 
 ## 1963 georeferencing v1 (2026-07-09) — what failed (kept for lessons)
 - FAILED: SIFT (hatch texture → degenerate homography with repeated dst

@@ -14,6 +14,10 @@ for fips in 51540 51003; do
     curl -s -O "https://www2.census.gov/geo/tiger/TIGER2023/ROADS/tl_2023_${fips}_roads.zip"
     unzip -o -q "tl_2023_${fips}_roads.zip"
   fi
+  if [ ! -f "tl_2023_${fips}_areawater.shp" ]; then
+    curl -s -O "https://www2.census.gov/geo/tiger/TIGER2023/AREAWATER/tl_2023_${fips}_areawater.zip"
+    unzip -o -q "tl_2023_${fips}_areawater.zip"
+  fi
 done
 ogr2ogr -overwrite -t_srs EPSG:2284 roads2284.shp tl_2023_51540_roads.shp
 ogr2ogr -append -t_srs EPSG:2284 roads2284.shp tl_2023_51003_roads.shp
@@ -21,3 +25,13 @@ ogr2ogr -append -t_srs EPSG:2284 roads2284.shp tl_2023_51003_roads.shp
 gdal_rasterize -q -burn 255 -te 11470000 3880000 11504000 3922000 \
   -tr 16 16 -ot Byte roads2284.shp ref_streets.tif
 echo "wrote work/ref/ref_streets.tif"
+
+# The Rivanna as a second reference: the 1963 city boundary follows the
+# river, so water polygons verify sheet edges where 1963-era roads are
+# too sparse for the street reference.
+ogr2ogr -overwrite -t_srs EPSG:2284 -dialect sqlite \
+  -sql "SELECT geometry FROM tl_2023_51003_areawater WHERE FULLNAME = 'Rivanna Riv'" \
+  rivanna2284.shp tl_2023_51003_areawater.shp
+gdal_rasterize -q -burn 255 -te 11470000 3880000 11504000 3922000 \
+  -tr 16 16 -ot Byte rivanna2284.shp ref_water.tif
+echo "wrote work/ref/ref_water.tif"
