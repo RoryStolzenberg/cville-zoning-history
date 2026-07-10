@@ -3,7 +3,7 @@ year	source	legend	notes
 1939	1939 Zoning Map superseded 1949 - clean2_georeferenced.tif	1939 Zoning Map Legend.png	gray 3.1 ft/px; "superseded 1949" print
 1949	1949 Zoning Map - cleaned_georeferenced.tif	1949 Zoning Legend.png	gray 3.1 ft/px
 1958	1958 Zoning Map - smallerer - clean_georeferenced2.tif	1958 Zoning Map Legend.png	gray+alpha 11.2 ft/px
-1963	work:1963.tif	1963 Zoning Legend.png	georeferenced by scripts/georef_1963.py (not part of 2022 batch)
+1963	1963 Zoning Map pg 2 - cleaned_modified.tif	1963 Zoning Legend.png	hand-georeferenced in QGIS 2026-07-10 (.points file alongside); supersedes scripts/georef_1963.py
 1976	1976 Zoning Map With Amendments_georeferenced.tif	1976 Zoning Map With Amendments - Legend.png	RGB 4.1 ft/px
 1991	1991 Zoning Map_modified.tif	1991 Zoning Legend.png	RGB 4.7 ft/px; georeferenced despite the filename
 2003	2003 Zoning Map_georeferenced_deflate.tif	2003 Zoning Legend - smaller - rearranged.png	RGB 2.5 ft/px lossless; avoid the JPEG "smaller*" variants

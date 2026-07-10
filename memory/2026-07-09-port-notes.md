@@ -189,6 +189,24 @@ resized to ≤900 px wide into docs/legends/).
 - Perpendicular-only pins leave along-street displacement free — put
   a full-2D junction pin at each end of a spine when possible.
 
+## Round 7 (2026-07-10, FINAL): Rory hand-georeferenced it
+- "okay. never mind. i did it manually, it's in the folder" — after
+  six rounds of automated correction, Rory did the 1963 sheet in QGIS
+  in an evening (~30 GCPs, "1963 Zoning Map pg 2 -
+  cleaned_modified.tif" + .points in ../). The manifest now feeds it
+  through prep.py like every other edition; georef_1963.py is
+  SUPERSEDED (kept for the lessons in its comments).
+- His warp verifies beautifully at the hook (red in-channel all
+  around) and is CRISPER than my output — one resample vs my three.
+- The meta-lesson: this sheet needed human feature-identification
+  throughout. The automation ceiling here was "good after many
+  user-corrected rounds"; ~30 hand GCPs from someone who knows the
+  town was faster and better. Offer the manual path EARLY when a
+  source resists the first two automated attempts — he has QGIS
+  muscle memory and offered to help long before I took him up on it.
+- His .points file is the ground truth if 1963 ever needs re-warping
+  from the source scan.
+
 ## 1963 georeferencing v1 (2026-07-09) — what failed (kept for lessons)
 - FAILED: SIFT (hatch texture → degenerate homography with repeated dst
   points — check pairwise dst distances, not inlier count/rms!);

@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
-"""Georeference the 1963 zoning map (the one edition the 2022 QGIS batch
-skipped) directly against the TIGER street network.
+"""SUPERSEDED 2026-07-10: Rory hand-georeferenced the 1963 sheet in QGIS
+("1963 Zoning Map pg 2 - cleaned_modified.tif" + .points in ../), and
+the manifest now feeds that file through prep.py like every other
+edition. This script and its lessons are kept for the record — the
+automated result reached ~100-200 ft but took six rounds of correction
+and two user interventions to get there; ~30 hand GCPs beat it in an
+evening.
+
+Original goal: georeference the 1963 zoning map (the one edition the
+2022 QGIS batch skipped) directly against the TIGER street network.
 
 History (details in memory/2026-07-09-port-notes.md): every automated
 coarse-alignment route false-locked on this hatched litho — SIFT
