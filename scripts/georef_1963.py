@@ -279,8 +279,20 @@ def main():
         (11493056, 3893904,   48,  376),
         (11493056, 3894864,   72,  376),
         (11494016, 3893904, -160,  208),   # SE edge
-        (11495000, 3898300,    0, -200),   # hook channel centering
-        (11495700, 3898650,    0, -200),
+        # River pins: the drawn city-boundary band snapped to the TIGER
+        # water outline (band extraction + nearest-boundary, identity-
+        # safe — no street naming involved), then chain-median smoothed,
+        # thinned to >=1200 ft spacing, and gradient-capped against the
+        # Locust Grove knot. The raw 22-pin set folds the TPS (swirl
+        # artifacts NW of the meander) — do not densify without the
+        # smoothing/thinning/gradient steps.
+        (11496232, 3903280,    8, -293),
+        (11495752, 3901608,  217, -559),
+        (11494528, 3900560,  123, -758),
+        (11494120, 3899208,  130, -423),
+        (11496696, 3898528,   10, -315),
+        (11495272, 3898144,  -29, -177),
+        (11496968, 3897328, -253,  -31),
         (11478000, 3906000, 0, 0), (11484000, 3909000, 0, 0),  # zero ring
         (11491000, 3908500, 0, 0), (11497000, 3905500, 0, 0),
         (11498500, 3901000, 0, 0), (11498000, 3895500, 0, 0),
