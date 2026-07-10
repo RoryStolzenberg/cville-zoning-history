@@ -3,8 +3,9 @@
 ("1963 Zoning Map pg 2 - cleaned_modified.tif" + .points in ../), and
 the manifest now feeds that file through prep.py like every other
 edition. This script and its lessons are kept for the record — the
-automated result reached ~100-200 ft but took six rounds of correction
-and two user interventions to get there; ~30 hand GCPs beat it in an
+automated approach shipped wrong to production several times, its own
+verification kept approving the errors, and the end state was still
+poor (Rory: "pretty bad"). ~30 hand GCPs beat the whole effort in an
 evening.
 
 Original goal: georeference the 1963 zoning map (the one edition the

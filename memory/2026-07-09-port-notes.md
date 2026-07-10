@@ -198,12 +198,15 @@ resized to ≤900 px wide into docs/legends/).
   SUPERSEDED (kept for the lessons in its comments).
 - His warp verifies beautifully at the hook (red in-channel all
   around) and is CRISPER than my output — one resample vs my three.
-- The meta-lesson: this sheet needed human feature-identification
-  throughout. The automation ceiling here was "good after many
-  user-corrected rounds"; ~30 hand GCPs from someone who knows the
-  town was faster and better. Offer the manual path EARLY when a
-  source resists the first two automated attempts — he has QGIS
-  muscle memory and offered to help long before I took him up on it.
+- The meta-lesson, in Rory's words: the automated result "was pretty
+  bad" — not "good after many rounds". It shipped wrong to production
+  multiple times, its own verification kept approving the errors, and
+  the passable-at-the-river end state still carried known 200-330 ft
+  residuals and localized rubber-sheeting. ~30 hand GCPs from someone
+  who knows the town beat the entire effort in an evening. Offer the
+  manual path EARLY when a source resists the first two automated
+  attempts — he has QGIS muscle memory and offered to help long
+  before I took him up on it.
 - His .points file is the ground truth if 1963 ever needs re-warping
   from the source scan.
 
