@@ -172,6 +172,23 @@ resized to ≤900 px wide into docs/legends/).
   measured on the new render. Exact at measured points; lets every
   rebuild stay a SINGLE TPS from the shift-only stage (2 resamples).
 
+## Round 6 (2026-07-10): Locust Grove solved with ONE user answer
+- Asked Rory to identify drawn Locust on the colored composite. His
+  answer ("the one adjacent to the magenta; red mostly runs between
+  streets") settled in one glance what I flip-flopped on for three
+  warp iterations. ASK EARLIER: a person who knows the town resolves
+  drawn-street identity instantly; renders cannot exceed engraving
+  resolution and my label-reading there is ~50% reliable.
+- He also called the rotation: the drawn NE pocket is rotated/
+  oversized. Spine pins along the confirmed drawn Locust centerline
+  (perpendicular snaps to the TIGER Locust raster + one junction-to-
+  junction pin at the labeled EAST HIGH fork for along-street control)
+  encode the rotation naturally — vectors grow along the street.
+- Shipped: pocket ~100-150 ft typical (was ~a full street column),
+  red/magenta/green ride their drawn streets in _pocket_v4.png.
+- Perpendicular-only pins leave along-street displacement free — put
+  a full-2D junction pin at each end of a spine when possible.
+
 ## 1963 georeferencing v1 (2026-07-09) — what failed (kept for lessons)
 - FAILED: SIFT (hatch texture → degenerate homography with repeated dst
   points — check pairwise dst distances, not inlier count/rms!);
