@@ -145,6 +145,33 @@ resized to ≤900 px wide into docs/legends/).
   and after the correction; same class as the 1958 hand-warp's local
   wobble). More hand knots would stack cleanly if it ever matters.
 
+## Round 5 (2026-07-10): meander pins shipped; Locust Grove punted
+- User caught two defects I'd presented as clean: (1) the drawn
+  meander is ENGRAVED FATTER than the real one — red sliced through
+  the peninsula; (2) Locust Grove's drawn grid is a different SIZE
+  than TIGER's (scale mismatch, not offset).
+- (1) FIXED: band-to-water river pins (identity-safe — no street
+  naming). CRITICAL: raw dense pins (22 @ ~800 ft) FOLD the TPS —
+  swirl/bullseye artifacts appear near steep pin gradients. Shipping
+  set = chain-median smoothed, >=1200 ft spacing, gradient vs nearby
+  knots capped at 50% of separation. 7 pins. Meander now ~100-200 ft.
+- (2) UNRESOLVED and reverted after THREE failed iterations: each
+  round I confidently identified drawn Locust/St Charles/Sheridan/
+  North differently and warped the map to the new misreading. The
+  tell: the "residual" at North Ave stayed ~300 ft after every
+  correction — I was re-identifying the next street over each time.
+  The drawn pocket also has a real BEARING divergence (drawn Locust
+  splays from TIGER Locust northward). Renders are at engraving
+  resolution — zooming can't improve my label reads. NEXT STEP: ask
+  Rory to identify the wide drawn diagonal in
+  work/qa/_pocket_colors.png (one glance for him); his answer converts
+  mechanically into corridor pins (traced centerline -> nearest point
+  on that street's TIGER raster, then smooth/thin/cap as above).
+- Composing corrections across TPS generations: total(P) =
+  TPS_old_deform(P) [gdaltransform -tps on the GCP file] + residual
+  measured on the new render. Exact at measured points; lets every
+  rebuild stay a SINGLE TPS from the shift-only stage (2 resamples).
+
 ## 1963 georeferencing v1 (2026-07-09) — what failed (kept for lessons)
 - FAILED: SIFT (hatch texture → degenerate homography with repeated dst
   points — check pairwise dst distances, not inlier count/rms!);
