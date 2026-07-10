@@ -84,6 +84,37 @@ resized to ≤900 px wide into docs/legends/).
   Ink-vs-water overlay at the hook shows the accepted 1963 warp within
   ~150-250 ft there (sheet's own county-area drafting is the limit).
 
+## Round 3 (2026-07-10): the v2 warp was ~2,200 ft EAST everywhere
+- Rory annotated a truth render (purple box = TIGER hook, green box =
+  drawn hook) and said "you basically just have to translate it left".
+  His green box was CLIPPED at his screenshot edge, so the box-to-box
+  delta (-1062 ft) was a LOWER BOUND — the real total was ~-2170.
+- ROOT CAUSE of both shipped failures: the two hand-read v2 anchors
+  were misidentified sheet intersections (hatch lookalikes ~2200 ft
+  west of the real ones), and every lattice-snap + street-metric
+  "verification" locked one alias over. Street-grid metrics CANNOT
+  catch whole-lattice aliases — they share the alias. Proof render:
+  the old warp put open rural land at UVA's geo location.
+- THE FIX (in georef_1963.py): pure translation HOOK_SHIFT =
+  (-2170 E, +120 N) ft after the order-2 warp, pinning the drawn
+  Rivanna meander (city-boundary band on the west bank) to TIGER
+  water. Measured two ways, agreeing within 80 ft: (a) the meander's
+  sharp SW V-tip, drawn vs TIGER; (b) translation-only ICP of the
+  extracted band vs the water outline near the hook. Confirmed by
+  1958 ink-to-ink patches (the only 2 with ncc>0.3 read <350 ft).
+- The cand3 river-pin TPS (street GCPs + river pins) was WRONG-headed:
+  it pinned the river correctly while holding the aliased street GCPs,
+  shearing the map unreadably. When a rubber sheet needs ~2000 ft of
+  local pull, suspect the GLOBAL placement first.
+- Registering a user screenshot to geo coords by fitting its saturated
+  reference linework (the red water outline) to the known ref raster
+  works well (~45 ft residual) — good trick for turning user
+  annotations into measurements. Watch for boxes clipped at image
+  edges.
+- Translation-only ICP diverges from a >1000 ft init when the moving
+  curve includes non-river boundary stretches; restrict to the hook
+  neighborhood AND init from a point feature (the V-tip) first.
+
 ## 1963 georeferencing v1 (2026-07-09) — what failed (kept for lessons)
 - FAILED: SIFT (hatch texture → degenerate homography with repeated dst
   points — check pairwise dst distances, not inlier count/rms!);

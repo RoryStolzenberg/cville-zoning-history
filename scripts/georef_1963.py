@@ -22,10 +22,12 @@ What works, and what this script does:
     two translation-only passes using the displacement HISTOGRAM MODE
     (robust to the periodic grid's false peaks), then a similarity
     RANSAC polish, then a final residual harvest.
- 3. Final snap pairs become GCPs -> gdalwarp -tps at full resolution.
- 4. Verify: street-mask phase correlation vs TIGER on the core-city
-    grid (same test all other editions pass at <=25 ft) + wide-capture
-    (±2500 ft) local displacement. Both must pass.
+ 3. Final snap pairs become GCPs -> order-2 warp at full resolution.
+ 4. Hook-lock translation: the street-lattice machinery above is blind
+    to whole-lattice aliases (it shipped ~2,200 ft east twice); the
+    drawn Rivanna meander pinned to the TIGER water polygon fixes the
+    absolute placement. See the HOOK_SHIFT comment in main().
+ 5. Verify: wide-capture (±2560 ft) local street displacement vs TIGER.
 
 Outputs: work/georef/1963.tif, work/qa/1963_vs_tiger.jpg
 """
@@ -224,6 +226,32 @@ def main():
          "-r", "bilinear", "-dstalpha", "-co", "COMPRESS=DEFLATE",
          "-co", "TILED=YES", "-overwrite", tmp, out])
     tmp.unlink()
+
+    # ---- hook-lock translation ------------------------------------
+    # The two hand-read anchors above were misidentified on the sheet
+    # (the hatch is full of lookalike intersections), and every
+    # downstream lattice snap then locked one alias over, leaving the
+    # whole order-2 warp displaced ~2,200 ft east — street-grid metrics
+    # cannot detect this class of error because they share the alias.
+    # The Rivanna hook is the one alias-free feature: the drawn meander
+    # (thick city-boundary band on the west bank, river channel just
+    # east of it) pins to the TIGER water polygon. The correspondence
+    # was measured two independent ways — the meander's sharp SW V-tip
+    # (drawn vs TIGER) and a translation-only ICP of the extracted
+    # boundary band against the water outline near the hook — agreeing
+    # within 80 ft. Pure translation: the engraving needs no local
+    # warping (a TPS that pinned the river while keeping the aliased
+    # street GCPs sheared the map unreadably), and the shifted sheet
+    # then matches the hand-georeferenced 1958 sibling within ~100-350
+    # ft at every patch the two editions' inks correlate on.
+    HOOK_SHIFT_E, HOOK_SHIFT_N = -2170.0, 120.0   # ft, EPSG:2284
+    info = json.loads(subprocess.run(
+        ["gdalinfo", "-json", str(out)], check=True,
+        capture_output=True, text=True).stdout)
+    (ulx, uly), (lrx, lry) = (info["cornerCoordinates"]["upperLeft"],
+                              info["cornerCoordinates"]["lowerRight"])
+    run(["gdal_edit.py", "-a_ullr", ulx + HOOK_SHIFT_E, uly + HOOK_SHIFT_N,
+         lrx + HOOK_SHIFT_E, lry + HOOK_SHIFT_N, out])
 
     # ---- acceptance: wide-capture local displacement vs TIGER ----
     # (Phase correlation is USELESS on this sheet in offset AND
