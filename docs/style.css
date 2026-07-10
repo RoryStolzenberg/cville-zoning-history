@@ -46,7 +46,6 @@ body {
   padding: 3px 10px; font-size: 13px; cursor: pointer;
 }
 #controls button.active { background: #2b5fa5; color: #fff; border-color: #2b5fa5; }
-.pop-code { color: #777; font-size: 11px; }
 
 #compare-years {
   position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
@@ -85,9 +84,9 @@ body {
   position: fixed; bottom: 82px; left: 10px; z-index: 30;
   background: rgba(255, 255, 255, 0.94); border-radius: 6px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-  max-width: 250px; font-size: 12px;
+  max-width: min(440px, 36vw); font-size: 12px;
 }
-#legend:has(.lg-block:nth-child(2)) { max-width: 400px; }
+#legend:has(.lg-block:nth-child(2)) { max-width: min(720px, 60vw); }
 #legend-head {
   display: block; width: 100%; text-align: left; cursor: pointer;
   border: 0; background: none; font: inherit; font-weight: 600;
@@ -102,7 +101,17 @@ body {
 .lg-block { min-width: 0; }
 .lg-year { font-weight: 600; color: #b5432c; margin: 2px 0 4px; }
 .lg-block:only-child .lg-year { display: none; }
-.lg-img { display: block; max-width: 100%; height: auto; }
+.lg-img { display: block; max-width: 100%; height: auto; cursor: zoom-in; }
+
+#lightbox {
+  position: fixed; inset: 0; z-index: 50; background: rgba(0, 0, 0, 0.75);
+  display: flex; align-items: center; justify-content: center;
+  cursor: zoom-out; overflow: auto; padding: 20px;
+}
+#lightbox img {
+  max-width: min(1400px, 96vw); max-height: 94vh; object-fit: contain;
+  background: #fff; border-radius: 4px;
+}
 
 @media (max-width: 700px) {
   #titlebar { max-width: 240px; }

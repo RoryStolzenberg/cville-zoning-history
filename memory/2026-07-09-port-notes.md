@@ -45,7 +45,37 @@ resized to ≤900 px wide into docs/legends/).
   Portal (like the notebook did for parcels). Palette = notebook's
   zoningLegendColors (R-A…DX/IX/CV/CM).
 
-## 1963 georeferencing (2026-07-09) — what failed and what worked
+## Round 2 (2026-07-10, user-driven changes)
+- User caught 1963 ~1000 ft off at the Rivanna hook — the v1
+  "verification" searched only ±480 ft so every patch locked onto the
+  nearest WRONG street. LESSON: a bounded-search displacement metric is
+  blind to offsets beyond its bound; verify with capture radius >> the
+  plausible error.
+- Phase correlation is fully unusable on the 1963 hatched litho (offset
+  AND response are hatch-period aliases: readings -97 to +4200 ft on
+  warps that wide-capture placed within 100 ft). Fine on all other
+  editions.
+- v2 pipeline (georef_1963.py): TIGER intersection geo coords
+  (spatialite ST_Intersection of named roads) + 2 hand-read sheet px
+  anchors -> similarity seed -> iterative TIGER patch snap (translation
+  passes via displacement-histogram MODE; RANSAC similarity "polish"
+  REJECTED — clustered inliers drag in bogus scale) -> marginal outlier
+  filter (NOT RANSAC: it picks a spatial cluster and the fit
+  extrapolates its local distortion) -> order-2 LSQ warp (NOT TPS:
+  exact interpolation bakes in snap noise). Verified median (-32,+48)
+  ft wide-capture; trusted-editions floor is ±30 ft.
+- Vector overlays REMOVED (user prefers real map sheets; compare
+  covers it). 2024 edition added from the city GeoPDF
+  (ZoningMap_2024.pdf, Web Mercator + neatline, prep.py renders at
+  400 dpi + crops to neatline); verified -1,-2 ft vs 2020.
+- All 10 editions verified vs TIGER: <=25 ft except 1939/1949 (resp
+  ~0, offsets 137-189 ft, hatched B&W like 1963 — phase corr may be
+  aliasing there too; NOT yet wide-capture-verified. TODO check).
+- Legend panel embiggened (1400px assets, wider panel, click ->
+  lightbox). 2024 legend crop must come from the WARPED tif frame,
+  not the raw PDF page (coords differ).
+
+## 1963 georeferencing v1 (2026-07-09) — what failed (kept for lessons)
 - FAILED: SIFT (hatch texture → degenerate homography with repeated dst
   points — check pairwise dst distances, not inlier count/rms!);
   gradient/street/blob phase-corr sweeps; bbox-template coarse. Global

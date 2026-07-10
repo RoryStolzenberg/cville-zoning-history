@@ -19,7 +19,7 @@ TILES = ROOT / "docs" / "tiles"
 MIN_ZOOM = 11
 MAX_ZOOM_CAP = 17
 EDITIONS = ["1929", "1939", "1949", "1958", "1963", "1976", "1991", "2003",
-            "2020"]
+            "2020", "2024"]
 
 
 def info(path):

@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT.parent  # ../ = Documents/Planning/Historical Zoning
 GEOREF = ROOT / "work" / "georef"
 LEGENDS = ROOT / "docs" / "legends"
-LEGEND_MAX_W = 900
+LEGEND_MAX_W = 1400
 
 
 def manifest():
@@ -35,7 +35,36 @@ def bands(path):
     return [b["colorInterpretation"] for b in info["bands"]]
 
 
+def prep_pdf(year, src):
+    """GeoPDF (the 2024 city sheet): render at 400 dpi, crop to the
+    neatline (page margins outside it carry bogus georeferencing), warp
+    Web Mercator -> EPSG:2284."""
+    out = GEOREF / f"{year}.tif"
+    if out.exists():
+        print(f"SKIP {year} (exists)")
+        return
+    import os
+    env = {**os.environ, "GDAL_PDF_DPI": "400"}
+    info = json.loads(subprocess.run(
+        ["gdalinfo", "-json", str(src)], capture_output=True, text=True,
+        check=True, env=env).stdout)
+    neat = info["metadata"][""]["NEATLINE"]
+    coords = [tuple(map(float, p.split()))
+              for p in neat.split("((")[1].rstrip("))").split(",")]
+    xs, ys = [c[0] for c in coords], [c[1] for c in coords]
+    subprocess.run(
+        ["gdalwarp", "-t_srs", "EPSG:2284", "-r", "bilinear", "-dstalpha",
+         "-te_srs", info["coordinateSystem"]["wkt"],
+         "-te", str(min(xs)), str(min(ys)), str(max(xs)), str(max(ys)),
+         "-co", "TILED=YES", "-co", "COMPRESS=DEFLATE", "-overwrite",
+         str(src), str(out)], check=True, env=env)
+    print(f"OK {out.name}")
+
+
 def prep_raster(year, src):
+    if src.suffix.lower() == ".pdf":
+        prep_pdf(year, src)
+        return
     out = GEOREF / f"{year}.tif"
     if out.exists():
         print(f"SKIP {year} (exists)")
@@ -93,6 +122,8 @@ def main():
                 prep_raster(year, src)
         else:
             print(f"MISSING {src}", file=sys.stderr)
+        if row["legend"].startswith("work:"):
+            continue  # legend produced by another step (2024: sheet crop)
         leg = SRC / row["legend"]
         if leg.exists():
             prep_legend(year, leg)

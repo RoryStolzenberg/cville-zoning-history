@@ -106,49 +106,6 @@ function showYear(side, year) {
   updateChrome();
 }
 
-/* ---- vector district overlays ----
- * Two GeoJSON layers built by scripts/vectors.py: the 2003 ordinance's
- * districts (in force, amended, through 2023) and the Feb-2024
- * Development Code districts. Each feature carries a pre-baked fill
- * color. Loaded lazily on first toggle. */
-const VEC = {
-  v2003: { btn: "vec2003-btn", url: "data/zoning_2003.geojson", on: false, loaded: false },
-  v2024: { btn: "vec2024-btn", url: "data/zoning_2024.geojson", on: false, loaded: false },
-};
-
-async function toggleVec(key) {
-  const v = VEC[key];
-  v.on = !v.on;
-  $(v.btn).classList.toggle("active", v.on);
-  if (v.on && !v.loaded) {
-    v.data = await (await fetch(v.url)).json();
-    v.loaded = true;
-  }
-  for (const m of Object.values(window._maps)) {
-    if (v.on && !m.getSource(key)) {
-      m.addSource(key, { type: "geojson", data: v.data });
-      m.addLayer({
-        id: key, type: "fill", source: key,
-        paint: {
-          "fill-color": ["get", "color"],
-          "fill-opacity": 0.55,
-          "fill-outline-color": "rgba(0,0,0,0.35)",
-        },
-      });
-      m.on("click", key, e => {
-        const p = e.features[0].properties;
-        new maplibregl.Popup({ closeButton: false })
-          .setLngLat(e.lngLat)
-          .setHTML(`<strong>${p.zone}</strong>` +
-                   `<span class="pop-code"> · ${key === "v2003" ? "2003 code" : "2024 code"}</span>`)
-          .addTo(m);
-      });
-    } else if (m.getLayer(key)) {
-      m.setLayoutProperty(key, "visibility", v.on ? "visible" : "none");
-    }
-  }
-}
-
 /* ---- sync two maps without feedback loops ---- */
 function syncMaps(a, b) {
   let busy = false;
@@ -243,8 +200,6 @@ function wireControls() {
     }
   };
   $("compare-btn").onclick = () => enterCompare(!comparing);
-  $("vec2003-btn").onclick = () => toggleVec("v2003");
-  $("vec2024-btn").onclick = () => toggleVec("v2024");
   wireDivider();
   window.addEventListener("keydown", e => {
     if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
@@ -282,7 +237,16 @@ function initLegend() {
 
 function legendBlock(year) {
   return `<div class="lg-block"><div class="lg-year">${year}</div>` +
-         `<img class="lg-img" src="legends/${year}.png" alt="${year} legend"></div>`;
+         `<img class="lg-img" src="legends/${year}.png" alt="${year} legend"` +
+         ` title="Click to enlarge" onclick="showLightbox(this.src)"></div>`;
+}
+
+function showLightbox(src) {
+  const box = document.createElement("div");
+  box.id = "lightbox";
+  box.innerHTML = `<img src="${src}">`;
+  box.onclick = () => box.remove();
+  document.body.appendChild(box);
 }
 
 function renderLegend() {

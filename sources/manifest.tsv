@@ -8,3 +8,4 @@ year	source	legend	notes
 1991	1991 Zoning Map_modified.tif	1991 Zoning Legend.png	RGB 4.7 ft/px; georeferenced despite the filename
 2003	2003 Zoning Map_georeferenced_deflate.tif	2003 Zoning Legend - smaller - rearranged.png	RGB 2.5 ft/px lossless; avoid the JPEG "smaller*" variants
 2020	2020 Zoning Map_georeferenced.tif	2020 Zoning Legend.png	RGB 4.7 ft/px
+2024	2024 Zoning Map.pdf	work:legend_2024	GeoPDF (Web Mercator + neatline) from widget.charlottesville.org/gis/map_gallery/ZoningMap_2024.pdf; legend cropped from sheet by prep
