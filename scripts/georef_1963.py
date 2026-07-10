@@ -293,6 +293,19 @@ def main():
         (11496696, 3898528,   10, -315),
         (11495272, 3898144,  -29, -177),
         (11496968, 3897328, -253,  -31),
+        # Locust Grove spine pins: the drawn Locust Ave centerline
+        # (identity confirmed by Rory — it is the wide diagonal the
+        # St Charles TIGER line was riding, NOT the street the Locust
+        # TIGER line crossed) pinned to TIGER Locust Ave. The vectors
+        # grow along the street because the drawn neighborhood is
+        # rotated/oversized relative to reality; spine pins encode the
+        # rotation. South fork value is a junction-to-junction read at
+        # the labeled EAST HIGH intersection (captures along-street
+        # displacement); the rest are perpendicular snaps.
+        (11491127, 3899474, -116, -371),
+        (11491610, 3900740,  126, -446),
+        (11492210, 3901820,  175, -789),
+        (11493200, 3903050,  320, -921),
         (11478000, 3906000, 0, 0), (11484000, 3909000, 0, 0),  # zero ring
         (11491000, 3908500, 0, 0), (11497000, 3905500, 0, 0),
         (11498500, 3901000, 0, 0), (11498000, 3895500, 0, 0),
